@@ -31,9 +31,15 @@ TEST(test_string_assert) {
   ASSERT_STR_EQ("hello", "hello");
 }
 
+TEST(test_fizzbuzz_with_buffer) {
+  ASSERT_STR_EQ(fizzbuzzString(6), "1, 2, Fizz, 4, Buzz, Fizz.");
+  ASSERT_STR_EQ(fizzbuzzString(20), "1, 2, Fizz, 4, Buzz, Fizz, 7, 8, Fizz, Buzz, 11, Fizz, 13, 14, FizzBuzz, 16, 17, Fizz, 19, Buzz.");
+}
+
 int main() {
   // Add a `RUN_TEST` line for each test function
   RUN_TEST(test_add);
   RUN_TEST(test_string_assert);
+  RUN_TEST(test_fizzbuzz_with_buffer);
   return failed;
 }

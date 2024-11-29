@@ -14,5 +14,6 @@ int main(int argc, char **argv) {
   // data_types();
   // arrays_and_strings();
   // structs();
-  fizzbuzzString(20);
+  char *result = fizzbuzzString(20);
+  puts(result);
 }

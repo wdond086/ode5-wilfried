@@ -123,31 +123,32 @@ void structs() {
   printf("Person %s, height %dcm\n", you.name, you.height);
 }
 
-int fizzbuzzString(int n) {
+char* fizzbuzzString(int n) {
   // Allocating with calloc allocates the memory but you to keep track of the size yourself
   int bufferSize = 20;
   char *buffer = calloc(bufferSize, sizeof(char));
 
   if (buffer == NULL) {
     perror("Error when allocating memory on heap for buffer");
-    return 1;
+    return NULL;
   }
 
   int isFirst = 1;
 
-  char *fizzOrBuzz;
+  char fizzOrBuzz[11] = {0};
 
-  printf("Initial buffer: \"%s\", Size: %d\n", buffer, bufferSize);
+  // printf("Initial buffer: \"%s\", Size: %d\n", buffer, bufferSize);
 
   for (int i = 1; i <= n; i++) {
+
     if (i % 15 == 0) {
-      fizzOrBuzz = "FizzBuzz";
+      sprintf(fizzOrBuzz, "%s", "FizzBuzz");
     } else if (i % 3 == 0) {
-      fizzOrBuzz = "Fizz";
+      sprintf(fizzOrBuzz, "%s", "Fizz");
     } else if (i % 5 == 0) {
-      fizzOrBuzz = "Buzz";
+      sprintf(fizzOrBuzz, "%s", "Buzz");
     } else {
-      continue;
+      sprintf(fizzOrBuzz, "%d", i);
     }
 
     int sizeNeeded;
@@ -156,20 +157,26 @@ int fizzbuzzString(int n) {
       sizeNeeded = snprintf(buffer, bufferSize, "%s", fizzOrBuzz);
       isFirst = 0;
     } else {
-      sizeNeeded = snprintf(buffer, bufferSize, "%s, %s", buffer, fizzOrBuzz);
+      char temp[11] = {0};  
+      // I have to create this temp here because sprintf replaces in place.
+      // Since the edit I want comes before the original string, I have to move its contents to another buffer so it does not get overwritten.
+      sprintf(temp, "%s", fizzOrBuzz);
+      sprintf(fizzOrBuzz, ", %s", temp);
+
+      sizeNeeded = snprintf(buffer, bufferSize, "%s%s", buffer, fizzOrBuzz);
       if (sizeNeeded >= 0 && sizeNeeded > bufferSize) {
-        puts("Buffer overflow detected!");
-        printf("Size of FizzOrBuzz: %lu\n", strlen(fizzOrBuzz));
+        // puts("Buffer overflow detected!");
+        // printf("Size of FizzOrBuzz: %lu\n", strlen(fizzOrBuzz));
         int startingOverflowIndex = strlen(fizzOrBuzz) - sizeNeeded + bufferSize - 1; // The -1 accounts for the null termination string
         // Pointer arithmetic to determine the starting index of the section of the fizzbuzz string that overflew
         char *overflows = fizzOrBuzz + startingOverflowIndex;
-        printf("Buffer: \"%s\", FizzBuzzStr: \"%s\", Overflows: \"%s\", StartingOverflowIndex: %d\n", buffer, fizzOrBuzz, overflows, startingOverflowIndex);
+        // printf("Buffer: \"%s\", FizzBuzzStr: \"%s\", Overflows: \"%s\", StartingOverflowIndex: %d\n", buffer, fizzOrBuzz, overflows, startingOverflowIndex);
 
         // Allocating memory for new buffer, double the size of the original buffer
         char *newBuffer = calloc(bufferSize * 2, sizeof(char));
         if (newBuffer == NULL) {
           perror("Failed to reallocate new buffer on heap");
-          return 1;
+          return NULL;
         }
 
         // Copying the contents of the old buffer to the new buffer
@@ -180,11 +187,12 @@ int fizzbuzzString(int n) {
         free(buffer);
         buffer = newBuffer;
         sprintf(buffer, "%s%s", buffer, overflows);
-        printf("new buffer: %s, size: %d\n", buffer, bufferSize);
+        // printf("new buffer: %s, size: %d\n", buffer, bufferSize);
       }
     }
 
-    printf("%d, \"%s\", sizeNeeded: %d\n", i, buffer, sizeNeeded);
+    // printf("%d, \"%s\", sizeNeeded: %d\n", i, buffer, sizeNeeded);
   }
-  return 0;
+  sprintf(buffer, "%s%s", buffer,".");
+  return buffer;
 }
