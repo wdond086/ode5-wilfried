@@ -137,7 +137,6 @@ char* fizzbuzzString(int n) {
 
   char fizzOrBuzz[11] = {0};
 
-  // printf("Initial buffer: \"%s\", Size: %d\n", buffer, bufferSize);
 
   for (int i = 1; i <= n; i++) {
 
@@ -165,12 +164,9 @@ char* fizzbuzzString(int n) {
 
       sizeNeeded = snprintf(buffer, bufferSize, "%s%s", buffer, fizzOrBuzz);
       if (sizeNeeded >= 0 && sizeNeeded > bufferSize) {
-        // puts("Buffer overflow detected!");
-        // printf("Size of FizzOrBuzz: %lu\n", strlen(fizzOrBuzz));
         int startingOverflowIndex = strlen(fizzOrBuzz) - sizeNeeded + bufferSize - 1; // The -1 accounts for the null termination string
         // Pointer arithmetic to determine the starting index of the section of the fizzbuzz string that overflew
         char *overflows = fizzOrBuzz + startingOverflowIndex;
-        // printf("Buffer: \"%s\", FizzBuzzStr: \"%s\", Overflows: \"%s\", StartingOverflowIndex: %d\n", buffer, fizzOrBuzz, overflows, startingOverflowIndex);
 
         // Allocating memory for new buffer, double the size of the original buffer
         char *newBuffer = calloc(bufferSize * 2, sizeof(char));
@@ -187,11 +183,9 @@ char* fizzbuzzString(int n) {
         free(buffer);
         buffer = newBuffer;
         sprintf(buffer, "%s%s", buffer, overflows);
-        // printf("new buffer: %s, size: %d\n", buffer, bufferSize);
       }
     }
 
-    // printf("%d, \"%s\", sizeNeeded: %d\n", i, buffer, sizeNeeded);
   }
   sprintf(buffer, "%s%s", buffer,".");
   return buffer;
