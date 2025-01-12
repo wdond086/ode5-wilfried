@@ -123,6 +123,55 @@ void structs() {
   printf("Person %s, height %dcm\n", you.name, you.height);
 }
 
+void fizzbuzzStringNew(char buffer[], size_t buffLen, int n) {
+  // int bufferLen = 11;
+  // char* buffer = calloc(bufferLen, sizeof(char));
+
+  // int isFirst = 1;
+  // int fizzOrBuzzLen = 11;
+  // char fizzOrBuzz[11] = {0};
+
+  for (int i = 1; i <= n; i++) {
+    int check;
+    if (i % 15 == 0) {
+      check = snprintf(buffer, buffLen, "%s, ", "FizzBuzz");
+    } else if (i % 3 == 0) {
+      check = snprintf(buffer, buffLen, "%s, ", "Fizz");
+    } else if (i % 5 == 0) {
+      check = snprintf(buffer, buffLen, "%s, ", "Buzz");
+    } else {
+      check = snprintf(buffer, buffLen, "%d, ", i);
+    }
+    // fizz, buzz, \o
+    if (i == n) {
+      // buffer += check - 2;
+      // buffLen -= check - 2;
+      // printf("check: %d, bufflen: %zu\n", check, buffLen);
+      buffer[check - 2] = '.';
+      // memset(buffer + check - 1, 0, buffLen - )
+      buffer[check - 1] = '\0';
+
+      printf("%s\n", buffer);
+      buffer[0] = '\0';
+      return;
+    }
+    printf("%s", buffer);
+    // Reset the buffer
+    buffer[0] = '\0';
+
+    // Go back two positions if the we are on the last position
+    // if (i == n) {
+      // Update the buffer start pointer and the buffer length to reflect the remaining number of spaces in the buffer
+      // buffer += check;
+      // buffer -= check;
+      // buffLen -= 2;
+      // buffer -= 2;
+      // snprintf(buffer, buffLen, ".");
+    // }
+
+  }
+}
+
 char* fizzbuzzString(int n) {
   // Allocating with calloc allocates the memory but you to keep track of the size yourself
   int bufferSize = 20;
