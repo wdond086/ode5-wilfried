@@ -123,7 +123,7 @@ void structs() {
   printf("Person %s, height %dcm\n", you.name, you.height);
 }
 
-void fizzbuzzStringNew(char buffer[], size_t buffLen, int n) {
+void fizzbuzzStringNew(char buffer[], size_t buffLen, long n) {
   // int bufferLen = 11;
   // char* buffer = calloc(bufferLen, sizeof(char));
 
@@ -131,7 +131,7 @@ void fizzbuzzStringNew(char buffer[], size_t buffLen, int n) {
   // int fizzOrBuzzLen = 11;
   // char fizzOrBuzz[11] = {0};
 
-  for (int i = 1; i <= n; i++) {
+  for (long i = 0UL; i <= n; i++) {
     int check;
     if (i % 15 == 0) {
       check = snprintf(buffer, buffLen, "%s, ", "FizzBuzz");
@@ -140,9 +140,14 @@ void fizzbuzzStringNew(char buffer[], size_t buffLen, int n) {
     } else if (i % 5 == 0) {
       check = snprintf(buffer, buffLen, "%s, ", "Buzz");
     } else {
-      check = snprintf(buffer, buffLen, "%d, ", i);
+      check = snprintf(buffer, buffLen, "%lu, ", i);
     }
-    // fizz, buzz, \o
+    // Add check when the buffer overflows
+    if (check >= 0 && check >= buffLen) {
+      printf("\n\033[31m%s: %s %lu %s\033[0m\n", "Buffer overflow", "The input", i, "is too big for the buffer size we have");
+      return;
+    }
+
     if (i == n) {
       // buffer += check - 2;
       // buffLen -= check - 2;

@@ -102,8 +102,10 @@ int main(int argc, char **argv) {
       //   printf("Invalid input: %s is not a valid integer.\n", argv[3]);
       //   return 1;
       // }
-      char buffer[11] = {0};
-      fizzbuzzStringNew(buffer, 11, getNumberFromArgs(argv, 3));
+      
+      // Buffer of size 15 should allow for an input of up to a trillion
+      char buffer[15] = {0};
+      fizzbuzzStringNew(buffer, 15, getNumberFromArgs(argv, 3));
       break;
     default:
       puts("Unknown command selected");
